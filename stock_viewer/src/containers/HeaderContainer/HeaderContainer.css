@@ -1,0 +1,12 @@
+.header {
+  background-color: #222;
+  height: 10vh;
+  width: 100vw;
+  color: white;
+  float: left;
+}
+
+.MainMenuButton {
+  height: 100%;
+  float: left;
+}

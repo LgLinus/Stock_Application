@@ -1,17 +1,12 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import StockViewerContainer from "./containers/StockViewerContainer/StockViewerContainer";
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Stock viewer app</h1>
-        </header>
-        <div className="MainBody">
-          <p> test</p>
-        </div>
-
+        <StockViewerContainer />
       </div>
     );
   }

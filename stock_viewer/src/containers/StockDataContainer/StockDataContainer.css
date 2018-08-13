@@ -1,0 +1,7 @@
+.stockDataContainer {
+  background-color: grey;
+  width: 25vw;
+  max-width: 196px;
+  height: 90vh;
+  float: right;
+}

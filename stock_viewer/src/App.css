@@ -1,22 +1,9 @@
 .App {
   text-align: center;
-  height: 480px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 64px;
-  width: 800px;
-  color: white;
-}
-
-.MainBody {
-  background-color: gray;
-  height: 480px;
-  width: 800px;
+  height: 100vh;
+  width: 100vw;
 }
 
 .App-title {
   font-size: 1.5em;
 }
-
