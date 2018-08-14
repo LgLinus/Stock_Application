@@ -4,7 +4,7 @@ import MainMenu from "../../components/Menu/Menu";
 class StockContainer extends Component {
   constructor(props) {
     super(props);
-    this.menu_buttons = [
+    this.menuButtons = [
       { image: "Options", action: this.options },
       { image: "Exit", action: this.exit }
     ];
@@ -23,7 +23,7 @@ class StockContainer extends Component {
   render() {
     return (
       <div className="Menu">
-        <MainMenu menuButtons={this.menu_buttons} {...this.props} />
+        <MainMenu menuButtons={this.menuButtons} {...this.props} />
       </div>
     );
   }
