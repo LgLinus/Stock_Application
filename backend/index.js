@@ -5,11 +5,22 @@ const headers_to_fine = {
   "2. high": "high",
   "3. low": "low"
 };
-const stocks = ["NETI-B"];
+const stocks = ["MSFT", "NETI-B"];
+
+const axios = require("axios");
+const apikey = process.env.alphavantage_key;
+
+let stock = stocks[0];
+axios
+  .get(
+    `http://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${stock}&interval=5min&apikey=${apikey}`
+  )
+  .then(function({ data }) {
+    console.log(data);
+  });
 
 let stockctr = 0;
-run();
-
+//run();
 async function run() {
   let msg = "";
 

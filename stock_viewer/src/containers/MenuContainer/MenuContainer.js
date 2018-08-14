@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import "./MenuContainer.css";
 import MainDrawer from "../../components/MainDrawer/MainDrawer";
-import MenuItem from "@material-ui/core/MenuItem";
-
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 class StockContainer extends Component {
   constructor(props) {
