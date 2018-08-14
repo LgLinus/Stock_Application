@@ -28,7 +28,10 @@ class StockDataContainer extends Component {
     // Header (buttons)
     return (
       <div className="stockDataContainer">
-        <StockList stocks={this.availableStocks} />
+        <StockList
+          handleStock={this.props.handleStock}
+          stocks={this.availableStocks}
+        />
       </div>
     );
   }

@@ -1,43 +1,47 @@
 import React, { Component } from "react";
 import "./MenuContainer.css";
-import MainMenu from "../../components/Menu/Menu";
+import MainDrawer from "../../components/MainDrawer/MainDrawer";
 import MenuItem from "@material-ui/core/MenuItem";
+
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 class StockContainer extends Component {
   constructor(props) {
     super(props);
 
     this.buttons = [
-      <MenuItem color="primary" onClick={this.options}>
-        Options
-      </MenuItem>,
-      <MenuItem color="primary" onClick={this.calendar}>
-        Calendar
-      </MenuItem>,
-      <MenuItem color="primary" onClick={this.exit}>
-        Exit
-      </MenuItem>
+      <ListItem button onClick={this.options}>
+        <ListItemText primary="Options" />
+      </ListItem>,
+      <ListItem button onClick={this.calendar}>
+        <ListItemText primary="Calendar" />
+      </ListItem>,
+      <ListItem button onClick={this.exit}>
+        <ListItemText primary="Exit" />
+      </ListItem>
     ];
   }
 
   options = () => {
-    alert("Options");
+    console.log("Options");
     this.props.onClose();
   };
 
   exit = () => {
-    alert("Exit");
+    console.log("Exit");
     this.props.onClose();
   };
 
   calendar = () => {
-    alert("Calendar");
+    console.log("Calendar");
     this.props.onClose();
   };
 
   render() {
     return (
       <div className="Menu">
-        <MainMenu {...this.props}>{this.buttons}</MainMenu>
+        <MainDrawer {...this.props}>{this.buttons}</MainDrawer>
       </div>
     );
   }

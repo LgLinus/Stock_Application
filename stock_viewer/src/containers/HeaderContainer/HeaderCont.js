@@ -4,15 +4,15 @@ import { Button } from "@material-ui/core";
 import MenuContainer from "../MenuContainer/MenuContainer";
 class HeaderContainer extends Component {
   state = {
-    anchorEl: null
+    open: false
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState({ open: false });
   };
 
   handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
+    this.setState({ open: true });
   };
 
   render() {
@@ -26,10 +26,7 @@ class HeaderContainer extends Component {
         >
           Menu
         </Button>
-        <MenuContainer
-          onClose={this.handleClose}
-          anchorEl={this.state.anchorEl}
-        />
+        <MenuContainer onClose={this.handleClose} open={this.state.open} />
       </div>
     );
   }
