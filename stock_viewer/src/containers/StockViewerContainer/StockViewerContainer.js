@@ -8,9 +8,12 @@ class StockViewerContainer extends Component {
   };
 
   handleStock = name => {
-    console.log(name);
+    if (name === this.state.currentStock) {
+      return;
+    }
     this.setState({ currentStock: name });
   };
+
   render() {
     return (
       <div>

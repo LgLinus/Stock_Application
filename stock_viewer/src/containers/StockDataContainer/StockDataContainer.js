@@ -1,37 +1,40 @@
 import React, { Component } from "react";
 import "./StockDataContainer.css";
 import StockList from "../../components/StockList/StockList";
+import StockItem from "../../components/StockItem/StockItem";
 class StockDataContainer extends Component {
   constructor(props) {
     super(props);
 
     this.availableStocks = [
-      {
-        name: "NETInsight B",
-        currentValue: 3.8,
-        currency: "SEK",
-        dailyPercentage: "2.32%",
-        weeklyPercentage: "-1.2%",
-        monthlyPercentage: "50%"
-      },
-      {
-        name: "Paradox Interactive",
-        currency: "SEK",
-        currentValue: 200,
-        dailyPercentage: "-3%",
-        weeklyPercentage: "-1.2%",
-        monthlyPercentage: "50%"
-      }
+      <StockItem
+        name="NETInsight B"
+        currency="SEK"
+        currentValue="3.8"
+        dailyPercentage="2.32%"
+        onClick={() => props.handleStock("NETI")}
+      />,
+      <StockItem
+        name="Paradox Interactive"
+        currency="SEK"
+        currentValue="200"
+        dailyPercentage="-3%"
+        onClick={() => props.handleStock("Paradox Interactive")}
+      />,
+      <StockItem
+        name="Episurf B"
+        currency="SEK"
+        currentValue="5.44"
+        dailyPercentage="2.64%"
+        onClick={() => props.handleStock("Episurf B")}
+      />
     ];
   }
   render() {
     // Header (buttons)
     return (
       <div className="stockDataContainer">
-        <StockList
-          handleStock={this.props.handleStock}
-          stocks={this.availableStocks}
-        />
+        <StockList stocks={this.availableStocks} />
       </div>
     );
   }

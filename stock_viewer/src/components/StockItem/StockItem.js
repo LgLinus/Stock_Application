@@ -1,22 +1,49 @@
 import React from "react";
 import "./StockItem.css";
+import { ListItem, ListItemText } from "@material-ui/core/";
 
-const MenuButton = ({ currency, name, currentValue, dailyPercentage }) => {
-  const renderPercentage = percentage => {
+const MAXLENGTH = 20;
+
+const StockItem = ({
+  onClick,
+  currency,
+  name,
+  currentValue,
+  dailyPercentage
+}) => {
+  const getSecondaryText = percentage => {
     let negativeDaily = dailyPercentage.charAt(0) === "-";
     return (
-      <span style={negativeDaily ? { color: "red" } : null}>{percentage}</span>
+      <div>
+        {currentValue}
+        {"  "}
+        {currency}
+        {"  "}
+        <span style={negativeDaily ? { color: "red" } : { color: "green" }}>
+          {percentage}
+        </span>
+      </div>
     );
   };
 
   return (
-    <div className="stockItem">
+    /*
+    <ListItem onClick={onClick}>
+      <ListItemText inset primary="Chelsea Otakan" />
       <p>{name}</p>
       {currentValue}
       {currency}
       {renderPercentage(dailyPercentage)}
-    </div>
+    </ListItem>
+  );*/
+
+    <ListItem onClick={onClick} button divider>
+      <ListItemText
+        primary={name.slice(0, MAXLENGTH)}
+        secondary={getSecondaryText(dailyPercentage)}
+      />
+    </ListItem>
   );
 };
 
-export default MenuButton;
+export default StockItem;
