@@ -3,3 +3,13 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+:root {
+  --mdc-theme-primary: #9c27b0;
+  --mdc-theme-primary-light: #000;
+  --mdc-theme-primary-dark: #000;
+  --mdc-theme-secondary: #000;
+  --mdc-theme-secondary-light: #000;
+  --mdc-theme-secondary-dark: #000;
+  --mdc-theme-background: #000;
+}

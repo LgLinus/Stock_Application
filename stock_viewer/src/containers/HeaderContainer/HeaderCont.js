@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import "./HeaderContainer.css";
-import { Button, IconButton, MenuItem } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import MenuContainer from "../MenuContainer/MenuContainer";
 class HeaderContainer extends Component {
-  
   state = {
     anchorEl: null
   };

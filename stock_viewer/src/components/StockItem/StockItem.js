@@ -2,20 +2,19 @@ import React from "react";
 import "./StockItem.css";
 
 const MenuButton = ({ currency, name, currentValue, dailyPercentage }) => {
-  let negativeDaily = dailyPercentage.charAt(0) === "-";
+  const renderPercentage = percentage => {
+    let negativeDaily = dailyPercentage.charAt(0) === "-";
+    return (
+      <span style={negativeDaily ? { color: "red" } : null}>{percentage}</span>
+    );
+  };
+
   return (
     <div className="stockItem">
-      {name}
-      {"  "}
+      <p>{name}</p>
       {currentValue}
       {currency}
-      <p>
-        {negativeDaily ? (
-          <span className="redText"> {dailyPercentage} </span>
-        ) : (
-          <span>{dailyPercentage}</span>
-        )}
-      </p>
+      {renderPercentage(dailyPercentage)}
     </div>
   );
 };

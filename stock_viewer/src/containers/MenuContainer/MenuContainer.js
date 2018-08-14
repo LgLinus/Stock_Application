@@ -1,12 +1,21 @@
 import React, { Component } from "react";
 import "./MenuContainer.css";
 import MainMenu from "../../components/Menu/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
 class StockContainer extends Component {
   constructor(props) {
     super(props);
-    this.menuButtons = [
-      { image: "Options", action: this.options },
-      { image: "Exit", action: this.exit }
+
+    this.buttons = [
+      <MenuItem color="primary" onClick={this.options}>
+        Options
+      </MenuItem>,
+      <MenuItem color="primary" onClick={this.calendar}>
+        Calendar
+      </MenuItem>,
+      <MenuItem color="primary" onClick={this.exit}>
+        Exit
+      </MenuItem>
     ];
   }
 
@@ -20,10 +29,15 @@ class StockContainer extends Component {
     this.props.onClose();
   };
 
+  calendar = () => {
+    alert("Calendar");
+    this.props.onClose();
+  };
+
   render() {
     return (
       <div className="Menu">
-        <MainMenu menuButtons={this.menuButtons} {...this.props} />
+        <MainMenu {...this.props}>{this.buttons}</MainMenu>
       </div>
     );
   }

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./StockViewerContainer.css";
-import MenuContainer from "../MenuContainer/MenuContainer";
 import HeaderContainer from "../HeaderContainer/HeaderCont";
 import StockDataContainer from "../StockDataContainer/StockDataContainer";
 class StockViewerContainer extends Component {

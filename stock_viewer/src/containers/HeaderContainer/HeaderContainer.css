@@ -4,6 +4,7 @@
   width: 100vw;
   color: white;
   float: left;
+  max-height: 64px;
 }
 
 .MainMenuButton {
