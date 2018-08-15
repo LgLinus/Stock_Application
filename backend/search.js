@@ -4,9 +4,17 @@ const express = require("express");
 const app = express();
 const get = require("lodash.get");
 
+app.all("/*", function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  return next();
+});
 app.get("/", async (req, res) => {
-  console.log(req.query.searchText);
   let data = await getStock(req.query.searchText);
+  if (data.error) {
+    res.status(400).json({ ...data });
+    return;
+  }
+  console.log(data);
   res.send(data);
 });
 
@@ -14,8 +22,12 @@ app.listen(3001, () => console.log("Listening on poart 3001"));
 
 async function getStock(searchText) {
   let query = `http://www.avanza.se/ab/sok/inline?query=${searchText}&_=1534268201806`;
-  let { data } = await axios.get(query);
-  console.log(data);
+  let data;
+  try {
+    data = (await axios.get(query)).data;
+  } catch (exception) {
+    return defaultError("errconnect");
+  }
   let $ = cheerio.load(data);
   let mainClasses = $(".srchResLink");
   let latestValue = $(".MText");
@@ -26,25 +38,18 @@ async function getStock(searchText) {
       let title = getTitle(object);
       let ref = getRef(object);
       let { currency, value } = getLatestValue(latestValue[key]);
-      console.log(title, ref);
       return { title, ref, currency, value };
     })
     .filter(({ title }) => title);
-  console.log(objects);
   return objects;
 }
 
-let getTitle = mainClass => {
-  return get(mainClass, "attribs.title");
-};
+let getTitle = mainClass => get(mainClass, "attribs.title");
 
-let getRef = mainClass => {
-  let ref = get(mainClass, "attribs.href");
-  if (ref) {
-    return ref.split("/").pop();
-  }
-  return;
-};
+let getRef = mainClass =>
+  get(mainClass, "attribs.href", "")
+    .split("/")
+    .pop();
 
 let getLatestValue = valueClass => {
   let data = get(valueClass, "children.0.data");
@@ -58,5 +63,12 @@ let getLatestValue = valueClass => {
       value
     };
   }
-  return "";
+  return {};
+};
+
+let defaultError = msg => {
+  return {
+    error: 1,
+    msg
+  };
 };

@@ -1,5 +1,5 @@
 .stockDataContainer {
-  background-color: grey;
+  border-left: 1px solid lightgrey;
   width: 30vw;
   max-width: 288px;
   height: 90vh;

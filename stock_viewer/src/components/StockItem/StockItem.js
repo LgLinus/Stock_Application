@@ -5,7 +5,7 @@ import { ListItem, ListItemText } from "@material-ui/core/";
 const MAXLENGTH = 20;
 
 const StockItem = ({
-  onClick,
+  showStockDetails,
   currency,
   name,
   currentValue,
@@ -14,11 +14,11 @@ const StockItem = ({
   const getSecondaryText = percentage => {
     let negativeDaily = dailyPercentage.charAt(0) === "-";
     return (
-      <div>
-        {currentValue}
-        {"  "}
-        {currency}
-        {"  "}
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <span>
+          {currentValue}
+          {currency}
+        </span>
         <span style={negativeDaily ? { color: "red" } : { color: "green" }}>
           {percentage}
         </span>
@@ -27,17 +27,7 @@ const StockItem = ({
   };
 
   return (
-    /*
-    <ListItem onClick={onClick}>
-      <ListItemText inset primary="Chelsea Otakan" />
-      <p>{name}</p>
-      {currentValue}
-      {currency}
-      {renderPercentage(dailyPercentage)}
-    </ListItem>
-  );*/
-
-    <ListItem onClick={onClick} button divider>
+    <ListItem button divider>
       <ListItemText
         primary={name.slice(0, MAXLENGTH)}
         secondary={getSecondaryText(dailyPercentage)}
