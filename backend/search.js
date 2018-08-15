@@ -40,7 +40,9 @@ async function getStock(searchText) {
       let { currency, value } = getLatestValue(latestValue[key]);
       return { title, ref, currency, value };
     })
-    .filter(({ title }) => title);
+    .filter(
+      ({ title, currency, value, ref }) => title && currency && value && ref
+    );
   return objects;
 }
 
