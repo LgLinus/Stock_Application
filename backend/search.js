@@ -2,8 +2,10 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const express = require("express");
 const app = express();
+const get = require("lodash.get");
 
 app.get("/", async (req, res) => {
+  console.log(req.query.searchText);
   let data = await getStock(req.query.searchText);
   res.send(data);
 });
@@ -12,8 +14,8 @@ app.listen(3001, () => console.log("Listening on poart 3001"));
 
 async function getStock(searchText) {
   let query = `http://www.avanza.se/ab/sok/inline?query=${searchText}&_=1534268201806`;
-
   let { data } = await axios.get(query);
+  console.log(data);
   let $ = cheerio.load(data);
   let mainClasses = $(".srchResLink");
   let latestValue = $(".MText");
@@ -33,22 +35,20 @@ async function getStock(searchText) {
 }
 
 let getTitle = mainClass => {
-  if (mainClass.attribs) {
-    return mainClass.attribs.title;
-  }
-  return;
+  return get(mainClass, "attribs.title");
 };
 
 let getRef = mainClass => {
-  if (mainClass.attribs) {
-    return mainClass.attribs.href.split("/").pop();
+  let ref = get(mainClass, "attribs.href");
+  if (ref) {
+    return ref.split("/").pop();
   }
   return;
 };
 
 let getLatestValue = valueClass => {
-  if (valueClass && valueClass.children && valueClass.children[0]) {
-    let data = valueClass.children[0].data;
+  let data = get(valueClass, "children.0.data");
+  if (data) {
     let currency = data.match(/[\d,]{1,}/gm);
     currency = currency ? currency.join("") : null;
     let value = data.match(/[A-Z]{2,}/gm);
