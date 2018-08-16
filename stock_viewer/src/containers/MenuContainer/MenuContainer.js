@@ -3,18 +3,18 @@ import "./MenuContainer.css";
 import MainDrawer from "../../components/MainDrawer/MainDrawer";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-class StockContainer extends Component {
+class MenuContainer extends Component {
   constructor(props) {
     super(props);
 
     this.buttons = [
-      <ListItem button onClick={this.options}>
+      <ListItem button onClick={this.options} key="1">
         <ListItemText primary="Options" />
       </ListItem>,
-      <ListItem button onClick={this.calendar}>
+      <ListItem button onClick={this.calendar} key="2">
         <ListItemText primary="Calendar" />
       </ListItem>,
-      <ListItem button onClick={this.exit}>
+      <ListItem button onClick={this.exit} key="3">
         <ListItemText primary="Exit" />
       </ListItem>
     ];
@@ -44,4 +44,4 @@ class StockContainer extends Component {
   }
 }
 
-export default StockContainer;
+export default MenuContainer;

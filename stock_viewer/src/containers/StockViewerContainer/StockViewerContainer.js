@@ -7,7 +7,8 @@ class StockViewerContainer extends Component {
     currentStock: "None"
   };
 
-  handleStock = name => {
+  stockDetailsHandler = name => {
+    console.log("Called stock", name);
     if (name === this.state.currentStock) {
       return;
     }
@@ -19,8 +20,8 @@ class StockViewerContainer extends Component {
       <div>
         <HeaderContainer />
         <div className="MainBody" />
-        <StockDataContainer handleStock={this.handleStock} />
-        <p>{this.state.currentStock}</p>
+        <StockDataContainer stockDetailsHandler={this.stockDetailsHandler} />
+        <div>{this.state.currentStock}</div>
       </div>
     );
   }

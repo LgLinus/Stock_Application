@@ -35,21 +35,6 @@ class HeaderContainer extends Component {
         </AppBar>
         <MenuContainer onClose={this.handleClose} open={this.state.open} />
       </div>
-      /*
-      <div className="header">
-        <AppBar position="static">
-          <Toolbar variant="dense">
-            <IconButton
-              className="MainMenuButton"
-              color="inherit"
-              variant="contained"
-              onClick={this.handleClick}
-              aria-label="Menu"
-            />
-            <MenuContainer onClose={this.handleClose} open={this.state.open} />
-          </Toolbar>
-        </AppBar>
-      </div>*/
     );
   }
 }

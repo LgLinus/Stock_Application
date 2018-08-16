@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "./StockDataContainer.css";
 import StockList from "../../components/StockList/StockList";
-import StockItem from "../../components/StockItem/StockItem";
 import { TextField } from "@material-ui/core";
 const axios = require("axios");
 
@@ -11,26 +10,25 @@ class StockDataContainer extends Component {
     //
 
     this.state = { searchValue: "" };
-    console.log({ props });
     this.availableStocks = [
-      <StockItem
-        name="NETInsight B"
-        currency="SEK"
-        currentValue="3.8"
-        dailyPercentage="2.32%"
-      />,
-      <StockItem
-        name="Paradox Interactive"
-        currency="SEK"
-        currentValue="200"
-        dailyPercentage="-3%"
-      />,
-      <StockItem
-        name="Episurf B"
-        currency="SEK"
-        currentValue="5.44"
-        dailyPercentage="2.64%"
-      />
+      {
+        name: "NETInsight B",
+        currency: "SEK",
+        currentValue: "3.8",
+        dailyPercentage: "2.32%"
+      },
+      {
+        name: "Paradox Interactive",
+        currency: "SEK",
+        currentValue: "200",
+        dailyPercentage: "-3%"
+      },
+      {
+        name: "Episurf B",
+        currency: "SEK",
+        currentValue: "5.44",
+        dailyPercentage: "2.64%"
+      }
     ];
   }
 
@@ -42,12 +40,11 @@ class StockDataContainer extends Component {
         .get(`http://127.0.0.1:3001/?searchText=${searchValue}`)
         .then(({ data }) => {
           console.log({ data });
-          if (data.length == 1) {
+          if (data.length === 1) {
             alert(JSON.stringify(data));
           }
         });
     }
-    console.log(searchValue);
   };
 
   render() {
@@ -63,7 +60,7 @@ class StockDataContainer extends Component {
           onChange={this.handleSearch}
         />
         <StockList
-          showStockDetails={this.props.handleStock}
+          stockDetailsHandler={this.props.stockDetailsHandler}
           stocks={this.availableStocks}
         />
       </div>

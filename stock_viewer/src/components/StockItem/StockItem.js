@@ -5,7 +5,7 @@ import { ListItem, ListItemText } from "@material-ui/core/";
 const MAXLENGTH = 20;
 
 const StockItem = ({
-  showStockDetails,
+  stockDetailsHandler,
   currency,
   name,
   currentValue,
@@ -27,7 +27,7 @@ const StockItem = ({
   };
 
   return (
-    <ListItem button divider>
+    <ListItem button divider onClick={() => stockDetailsHandler(name)}>
       <ListItemText
         primary={name.slice(0, MAXLENGTH)}
         secondary={getSecondaryText(dailyPercentage)}
