@@ -1,9 +1,12 @@
 const get = require("lodash.get");
+
 class Stock {
   constructor(mainClass, valueClass) {
     this.title = this.getTitle(mainClass);
-    this.ref = this.getRef(mainClass);
-    let { currency, value } = this.getLatestValue(valueClass);
+    const { ref, orderBookId } = this.getRef(mainClass);
+    this.ref = ref;
+    this.orderBookId = orderBookId;
+    const { currency, value } = this.getLatestValue(valueClass);
     this.currency = currency;
     this.value = value;
   }
@@ -13,9 +16,11 @@ class Stock {
   }
 
   getRef(mainClass) {
-    return get(mainClass, "attribs.href", "")
-      .split("/")
-      .pop();
+    let obj = get(mainClass, "attribs.href", "").split("/");
+    return {
+      ref: obj.pop(),
+      orderBookId: obj.pop()
+    };
   }
 
   getLatestValue(valueClass) {
