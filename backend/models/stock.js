@@ -1,42 +1,76 @@
-const get = require("lodash.get");
+const axios = require("axios");
+const cheerio = require("cheerio");
+const Stock = require("./stockClass");
 
-class Stock {
-  constructor(mainClass, valueClass) {
-    this.title = this.getTitle(mainClass);
-    const { ref, orderBookId } = this.getRef(mainClass);
-    this.ref = ref;
-    this.orderBookId = orderBookId;
-    const { currency, value } = this.getLatestValue(valueClass);
-    this.currency = currency;
-    this.value = value;
+/**
+ * Returns a list of stock objects from avanza
+ * @param {string} searchText
+ */
+async function getStock(searchText) {
+  const query = `http://www.avanza.se/ab/sok/inline?query=${searchText}`; //&_=1534268201806`;
+  let data;
+  let $;
+  try {
+    data = (await axios.get(query)).data;
+    console.log("HMM");
+    $ = cheerio.load(data);
+  } catch (exception) {
+    return defaultError("errconnect");
   }
 
-  getTitle(mainClass) {
-    return get(mainClass, "attribs.title");
-  }
+  const mainClasses = $(".srchResLink");
+  const latestValues = $(".MText");
 
-  getRef(mainClass) {
-    let obj = get(mainClass, "attribs.href", "").split("/");
-    return {
-      ref: obj.pop(),
-      orderBookId: obj.pop()
-    };
-  }
-
-  getLatestValue(valueClass) {
-    let data = get(valueClass, "children.0.data");
-    if (data) {
-      let currency = data.match(/[\d,]{1,}/gm);
-      currency = currency ? currency.join("") : null;
-      let value = data.match(/[A-Z]{2,}/gm);
-      value = value ? value.join("") : null;
-      return {
-        currency,
-        value
-      };
-    }
-    return {};
-  }
+  let stocks = generateStocks(mainClasses, latestValues).filter(
+    ({ title, currency, value, ref }) => title && currency && value && ref
+  );
+  return stocks;
 }
 
-module.exports = Stock;
+/**
+ * Returns metadata for one stock based on unique key
+ * @param {string} key
+ */
+async function getMetaData(key) {
+  return (await getStock(key)).filter(obj => obj.ref === key)[0];
+}
+
+/**
+ *  Returns a list of stocks based on array of unique keys
+ * @param {stringArray} keys
+ */
+async function getMetaDatas(keys) {
+  let stocks = [];
+  for (const key of keys) {
+    let stock = await getMetaData(key);
+    if (stock) {
+      stocks.push(stock);
+    }
+  }
+  return stocks;
+}
+
+// Internal
+
+// Generate stocks based on the HTML classes
+let generateStocks = (mainClasses, latestValues) => {
+  const stocks = Object.keys(mainClasses).map(key => {
+    const latestValue = latestValues[key];
+    const object = mainClasses[key];
+    return new Stock(object, latestValue);
+  });
+  return stocks;
+};
+
+let defaultError = msg => {
+  return {
+    error: 1,
+    msg
+  };
+};
+
+module.exports = {
+  getStock,
+  getMetaData,
+  getMetaDatas
+};
