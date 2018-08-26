@@ -12,7 +12,6 @@ async function getStock(searchText) {
   let $;
   try {
     data = (await axios.get(query)).data;
-    console.log("HMM");
     $ = cheerio.load(data);
   } catch (exception) {
     return defaultError("errconnect");
@@ -37,7 +36,7 @@ async function getMetaData(key) {
 
 /**
  *  Returns a list of stocks based on array of unique keys
- * @param {stringArray} keys
+ * @param {Array<string>} keys
  */
 async function getMetaDatas(keys) {
   let stocks = [];

@@ -26,13 +26,13 @@ class Stock {
   getLatestValue(valueClass) {
     let data = get(valueClass, "children.0.data");
     if (data) {
-      let currency = data.match(/[\d,]{1,}/gm);
-      currency = currency ? currency.join("") : null;
-      let value = data.match(/[A-Z]{2,}/gm);
+      let value = data.match(/[\d,]{1,}/gm);
       value = value ? value.join("") : null;
+      let currency = data.match(/[A-Z]{2,}/gm);
+      currency = currency ? currency.join("") : null;
       return {
-        currency,
-        value
+        value,
+        currency
       };
     }
     return {};
