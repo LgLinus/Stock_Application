@@ -7,12 +7,11 @@ class StockViewerContainer extends Component {
     currentStock: "None"
   };
 
-  stockDetailsHandler = name => {
-    console.log("Called stock", name);
-    if (name === this.state.currentStock) {
+  stockDetailsHandler = ({ title }) => {
+    if (title === this.state.currentStock) {
       return;
     }
-    this.setState({ currentStock: name });
+    this.setState({ currentStock: title });
   };
 
   render() {

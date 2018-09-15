@@ -1,10 +1,11 @@
 import React from "react";
-import { ListItem, ListItemText, TextField } from "@material-ui/core/";
+import { TextField } from "@material-ui/core/";
+import StockList from "../StockList/StockList";
 
 class SearchComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { searchValue: null };
+    this.state = { searchValue: "" };
   }
 
   handleSearch = e => {
@@ -13,16 +14,25 @@ class SearchComponent extends React.Component {
     this.props.handleSearch(value);
   };
 
+  handleSelectStock = stock => {
+    this.props.handleClick(stock);
+  };
   render() {
     return (
-      <TextField
-        id="search"
-        label="Search stock"
-        type="search"
-        margin="normal"
-        value={this.state.searchValue}
-        onChange={this.handleSearch}
-      />
+      <div>
+        <TextField
+          id="search"
+          label="Search stock"
+          type="search"
+          margin="normal"
+          value={this.state.searchValue}
+          onChange={this.handleSearch}
+        />
+        <StockList
+          stocks={this.props.list}
+          stockDetailsHandler={this.handleSelectStock}
+        />
+      </div>
     );
   }
 }

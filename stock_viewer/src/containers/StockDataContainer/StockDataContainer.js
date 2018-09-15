@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./StockDataContainer.css";
 import StockList from "../../components/StockList/StockList";
-import { TextField } from "@material-ui/core";
+import SearchComponent from "../../components/SearchComponent/SearchComponent";
+
 const axios = require("axios");
 
 class StockDataContainer extends Component {
@@ -10,62 +11,71 @@ class StockDataContainer extends Component {
     //
     let availableStocks = [
       {
-        name: "NETInsight B",
-        key: "net-insight-b",
+        title: "NETInsight B",
+        reference: "net-insight-b",
         currency: "SEK",
-        currentValue: "3.8",
+        value: "3.8",
         dailyPercentage: "2.32%"
       },
       {
-        name: "Paradox Interactive",
-        key: "paradox-interactive",
+        title: "Paradox Interactive",
+        reference: "paradox-interactive",
         currency: "SEK",
-        currentValue: "200",
+        value: "200",
         dailyPercentage: "-3%"
       },
       {
-        name: "Episurf B",
-        key: "episurf-b",
+        title: "Episurf B",
+        reference: "episurf-b",
         currency: "SEK",
-        currentValue: "5.44",
+        value: "5.44",
         dailyPercentage: "2.64%"
       }
     ];
-    this.state = { searchValue: "", availableStocks };
+    let searchStock = [];
+    this.state = { searchValue: "", availableStocks, searchStock };
 
     setTimeout(this.setStockData, 3000);
   }
 
-  handleSearch = e => {
-    let searchValue = e.target.value;
-    this.setState({ searchValue });
+  handleSearch = searchValue => {
     if (searchValue && searchValue.length >= 3) {
       axios
         .get(`http://127.0.0.1:3001/search?searchText=${searchValue}`)
         .then(({ data }) => {
-          console.log({ data });
-          if (data.length === 1) {
-            alert(JSON.stringify(data));
-          }
+          let searchStock = data;
+          searchStock.reference = data.reference;
+
+          this.setState({ searchValue, searchStock });
         });
+    } else {
+      this.setState({ searchValue: "", searchStock: [] });
     }
   };
-
+  clickStock = newStock => {
+    let availableStocks = [...this.state.availableStocks];
+    if (
+      availableStocks.every(stock => stock.reference !== newStock.reference)
+    ) {
+      availableStocks.push(newStock);
+      this.setState({ availableStocks, searchStock: [] });
+    }
+  };
   setStockData = () => {
-    console.log("stockdata");
     let stocks = [...this.state.availableStocks];
 
-    const keyList = stocks.map(stock => stock.key);
+    const keyList = stocks.map(stock => stock.reference);
     axios
-      .post(`http://127.0.0.1:3001/getMetaDatas`, { keys: keyList })
+      .post(`http://127.0.0.1:3001/getMetaDatas`, { references: keyList })
       .then(({ data }) => {
         let stockMap = {};
+        console.log(data);
         data.forEach(element => {
-          let id = element.ref;
+          let id = element.reference;
           stockMap[id] = { ...element };
         });
         stocks.forEach(stock => {
-          let id = stock.key;
+          let id = stock.reference;
           stock.currentValue = stockMap[id].value;
         });
         this.setState({ availableStocks: stocks });
@@ -77,13 +87,10 @@ class StockDataContainer extends Component {
     // Header (buttons)
     return (
       <div className="stockDataContainer">
-        <TextField
-          id="search"
-          label="Search stock"
-          type="search"
-          margin="normal"
-          value={this.state.searchValue}
-          onChange={this.handleSearch}
+        <SearchComponent
+          list={this.state.searchStock}
+          handleSearch={this.handleSearch}
+          handleClick={this.clickStock}
         />
         <StockList
           stockDetailsHandler={this.props.stockDetailsHandler}

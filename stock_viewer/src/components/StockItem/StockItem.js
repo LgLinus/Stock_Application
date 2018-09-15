@@ -7,16 +7,19 @@ const MAXLENGTH = 20;
 const StockItem = ({
   stockDetailsHandler,
   currency,
-  name,
-  currentValue,
-  dailyPercentage
+  title,
+  reference,
+  value,
+  dailyPercentage,
+  ...rest
 }) => {
+  if (!dailyPercentage) dailyPercentage = "0";
   const getSecondaryText = percentage => {
     let negativeDaily = dailyPercentage.charAt(0) === "-";
     return (
       <div style={{ display: "flex", justifyContent: "space-between" }}>
         <span>
-          {currentValue}
+          {value}
           {currency}
         </span>
         <span style={negativeDaily ? { color: "red" } : { color: "green" }}>
@@ -27,12 +30,26 @@ const StockItem = ({
   };
 
   return (
-    <ListItem button divider onClick={() => stockDetailsHandler(name)}>
-      <ListItemText
-        primary={name.slice(0, MAXLENGTH)}
-        secondary={getSecondaryText(dailyPercentage)}
-      />
-    </ListItem>
+    <div>
+      <ListItem
+        button
+        divider
+        onClick={() =>
+          stockDetailsHandler({
+            currency,
+            title,
+            value,
+            dailyPercentage,
+            reference
+          })
+        }
+      >
+        <ListItemText
+          primary={title.slice(0, MAXLENGTH)}
+          secondary={getSecondaryText(dailyPercentage)}
+        />
+      </ListItem>
+    </div>
   );
 };
 
