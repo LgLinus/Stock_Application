@@ -7,11 +7,12 @@ const Stock = require("./stockClass");
  * @param {string} searchText
  */
 async function getStock(searchText) {
-  const query = `http://www.avanza.se/ab/sok/inline?query=${searchText}`; //&_=1534268201806`;
+  const query = `http://www.avanza.se/ab/sok/inline?query=${searchText}&_=1534268201806`;
   let data;
   let $;
   try {
     data = (await axios.get(query)).data;
+
     $ = cheerio.load(data);
   } catch (exception) {
     return defaultError("errconnect");
@@ -21,7 +22,8 @@ async function getStock(searchText) {
   const latestValues = $(".MText");
 
   let stocks = generateStocks(mainClasses, latestValues).filter(
-    ({ title, currency, value, ref }) => title && currency && value && ref
+    ({ title, currency, value, reference }) =>
+      title && currency && value && reference
   );
   return stocks;
 }
@@ -31,7 +33,7 @@ async function getStock(searchText) {
  * @param {string} key
  */
 async function getMetaData(key) {
-  return (await getStock(key)).filter(obj => obj.ref === key)[0];
+  return (await getStock(key)).filter(obj => obj.reference === key)[0];
 }
 
 /**

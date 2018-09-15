@@ -3,8 +3,8 @@ const get = require("lodash.get");
 class Stock {
   constructor(mainClass, valueClass) {
     this.title = this.getTitle(mainClass);
-    const { ref, orderBookId } = this.getRef(mainClass);
-    this.ref = ref;
+    const { reference, orderBookId } = this.getRef(mainClass);
+    this.reference = reference;
     this.orderBookId = orderBookId;
     const { currency, value } = this.getLatestValue(valueClass);
     this.currency = currency;
@@ -18,7 +18,7 @@ class Stock {
   getRef(mainClass) {
     let obj = get(mainClass, "attribs.href", "").split("/");
     return {
-      ref: obj.pop(),
+      reference: obj.pop(),
       orderBookId: obj.pop()
     };
   }
