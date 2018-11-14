@@ -1,0 +1,14 @@
+.recipeMain {
+width: 100%;
+display:flex;
+flex-wrap: wrap;
+}
+
+.recipe {
+flex: 0 50%;
+border-bottom: 1px solid grey;
+}
+
+.recipeitem {
+
+}
