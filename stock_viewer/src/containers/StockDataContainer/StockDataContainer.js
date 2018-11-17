@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import "./StockDataContainer.css";
-import StockList from "../../components/StockList/StockList";
-import SearchComponent from "../../components/SearchComponent/SearchComponent";
+import React, {Component} from 'react';
+import './StockDataContainer.css';
+import StockList from '../../components/StockList/StockList';
+import SearchComponent from '../../components/SearchComponent/SearchComponent';
 
-const axios = require("axios");
+const axios = require('axios');
 
 class StockDataContainer extends Component {
   constructor(props) {
@@ -11,29 +11,29 @@ class StockDataContainer extends Component {
     //
     let availableStocks = [
       {
-        title: "NETInsight B",
-        reference: "net-insight-b",
-        currency: "SEK",
-        value: "3.8",
-        dailyPercentage: "2.32%"
+        title: 'NETInsight B',
+        reference: 'net-insight-b',
+        currency: 'SEK',
+        value: '3.8',
+        dailyPercentage: '2.32%',
       },
       {
-        title: "Paradox Interactive",
-        reference: "paradox-interactive",
-        currency: "SEK",
-        value: "200",
-        dailyPercentage: "-3%"
+        title: 'Paradox Interactive',
+        reference: 'paradox-interactive',
+        currency: 'SEK',
+        value: '200',
+        dailyPercentage: '-3%',
       },
       {
-        title: "Episurf B",
-        reference: "episurf-b",
-        currency: "SEK",
-        value: "5.44",
-        dailyPercentage: "2.64%"
-      }
+        title: 'Episurf B',
+        reference: 'episurf-b',
+        currency: 'SEK',
+        value: '5.44',
+        dailyPercentage: '2.64%',
+      },
     ];
     let searchStock = [];
-    this.state = { searchValue: "", availableStocks, searchStock };
+    this.state = {searchValue: '', availableStocks, searchStock};
 
     setTimeout(this.setStockData, 3000);
   }
@@ -42,14 +42,14 @@ class StockDataContainer extends Component {
     if (searchValue && searchValue.length >= 3) {
       axios
         .get(`http://127.0.0.1:3001/search?searchText=${searchValue}`)
-        .then(({ data }) => {
+        .then(({data}) => {
           let searchStock = data;
           searchStock.reference = data.reference;
 
-          this.setState({ searchValue, searchStock });
+          this.setState({searchValue, searchStock});
         });
     } else {
-      this.setState({ searchValue: "", searchStock: [] });
+      this.setState({searchValue: '', searchStock: []});
     }
   };
   clickStock = newStock => {
@@ -58,27 +58,33 @@ class StockDataContainer extends Component {
       availableStocks.every(stock => stock.reference !== newStock.reference)
     ) {
       availableStocks.push(newStock);
-      this.setState({ availableStocks, searchStock: [] });
+      this.setState({availableStocks, searchStock: []});
     }
+  };
+  stockRemoveHandler = title => {
+    let availableStocks = this.state.availableStocks.filter(
+      stock => stock.title !== title,
+    );
+    this.setState({availableStocks, searchStock: []});
   };
   setStockData = () => {
     let stocks = [...this.state.availableStocks];
 
     const keyList = stocks.map(stock => stock.reference);
     axios
-      .post(`http://127.0.0.1:3001/getMetaDatas`, { references: keyList })
-      .then(({ data }) => {
+      .post(`http://127.0.0.1:3001/getMetaDatas`, {references: keyList})
+      .then(({data}) => {
         let stockMap = {};
         console.log(data);
         data.forEach(element => {
           let id = element.reference;
-          stockMap[id] = { ...element };
+          stockMap[id] = {...element};
         });
         stocks.forEach(stock => {
           let id = stock.reference;
           stock.currentValue = stockMap[id].value;
         });
-        this.setState({ availableStocks: stocks });
+        this.setState({availableStocks: stocks});
       });
 
     setTimeout(this.setStockData, 1000 * 60 * 2);
@@ -94,6 +100,7 @@ class StockDataContainer extends Component {
         />
         <StockList
           stockDetailsHandler={this.props.stockDetailsHandler}
+          stockRemoveHandler={this.stockRemoveHandler}
           stocks={this.state.availableStocks}
         />
       </div>

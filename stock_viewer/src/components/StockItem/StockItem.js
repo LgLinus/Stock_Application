@@ -1,11 +1,12 @@
-import React from "react";
-import "./StockItem.css";
-import { ListItem, ListItemText } from "@material-ui/core/";
+import React from 'react';
+import './StockItem.css';
+import {ListItem, ListItemText} from '@material-ui/core/';
 
 const MAXLENGTH = 20;
 
 const StockItem = ({
   stockDetailsHandler,
+  stockRemoveHandler,
   currency,
   title,
   reference,
@@ -13,16 +14,16 @@ const StockItem = ({
   dailyPercentage,
   ...rest
 }) => {
-  if (!dailyPercentage) dailyPercentage = "0";
+  if (!dailyPercentage) dailyPercentage = '0';
   const getSecondaryText = percentage => {
-    let negativeDaily = dailyPercentage.charAt(0) === "-";
+    let negativeDaily = dailyPercentage.charAt(0) === '-';
     return (
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
         <span>
           {value}
           {currency}
         </span>
-        <span style={negativeDaily ? { color: "red" } : { color: "green" }}>
+        <span style={negativeDaily ? {color: 'red'} : {color: 'green'}}>
           {percentage}
         </span>
       </div>
@@ -32,6 +33,7 @@ const StockItem = ({
   return (
     <div>
       <ListItem
+        className="stockitem"
         button
         divider
         onClick={() =>
@@ -40,14 +42,20 @@ const StockItem = ({
             title,
             value,
             dailyPercentage,
-            reference
+            reference,
           })
-        }
-      >
+        }>
         <ListItemText
           primary={title.slice(0, MAXLENGTH)}
           secondary={getSecondaryText(dailyPercentage)}
         />
+        {stockRemoveHandler && (
+          <p
+            className="stockitem-remove"
+            onClick={() => stockRemoveHandler(title)}>
+            X
+          </p>
+        )}
       </ListItem>
     </div>
   );

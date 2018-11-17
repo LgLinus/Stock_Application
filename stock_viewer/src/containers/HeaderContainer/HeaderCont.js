@@ -33,6 +33,10 @@ class HeaderContainer extends Component {
               <MenuIcon />
             </IconButton>
             Menu
+            <div className="headercontainer-title-container">
+              <h2 className="headercontainer-title">Smart home</h2>
+            </div>
+            <p className="headercontainer-version">V0.1</p>
           </Toolbar>
         </AppBar>
         <MenuContainer onClose={this.handleClose} open={this.state.open} />

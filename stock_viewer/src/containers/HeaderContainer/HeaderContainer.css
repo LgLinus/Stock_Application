@@ -10,3 +10,19 @@
   height: 100%;
   float: left;
 }
+
+.headercontainer-title {
+	position:relative;
+	left:-50%;
+}
+
+.headercontainer-title-container {
+	position:absolute;
+	left: 50%;
+}
+
+.headercontainer-version {
+	text-align:right;
+	width: 100%;
+	font-size: 12px;
+}

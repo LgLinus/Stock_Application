@@ -2,7 +2,11 @@
   color: red;
 }
 
-.stockItem {
-  border-bottom: 2px solid black;
-  background-color: #eeeeee;
+.stockitem:hover .stockitem-remove {
+visibility: visible;
+}
+
+.stockitem-remove {
+visibility: hidden;
+color: red;
 }

@@ -8,6 +8,7 @@ class MainContainer extends Component {
     super(props);
 
     this.state = {menu: 'recipes'};
+    //   this.state = {menu: 'stocks'};
   }
 
   renderMenu(menu) {
