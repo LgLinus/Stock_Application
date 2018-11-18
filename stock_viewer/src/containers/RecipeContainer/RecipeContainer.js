@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import './RecipeContainer.css';
+import './RecipeContainer.scss';
+
 const recipes = [
   {
     title: 'Spaghetti & Köttfärsås',
