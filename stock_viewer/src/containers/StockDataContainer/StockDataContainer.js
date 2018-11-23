@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import './StockDataContainer.css';
 import StockList from '../../components/StockList/StockList';
 import SearchComponent from '../../components/SearchComponent/SearchComponent';
-
-const axios = require('axios');
+import api from '../../api/api';
 
 class StockDataContainer extends Component {
   constructor(props) {
@@ -38,16 +37,10 @@ class StockDataContainer extends Component {
     setTimeout(this.setStockData, 3000);
   }
 
-  handleSearch = searchValue => {
+  handleSearch = async searchValue => {
     if (searchValue && searchValue.length >= 3) {
-      axios
-        .get(`http://127.0.0.1:3001/search?searchText=${searchValue}`)
-        .then(({data}) => {
-          let searchStock = data;
-          searchStock.reference = data.reference;
-
-          this.setState({searchValue, searchStock});
-        });
+      let searchStock = await api.getStockSearch(searchValue);
+      this.setState({searchValue, searchStock});
     } else {
       this.setState({searchValue: '', searchStock: []});
     }
@@ -67,25 +60,12 @@ class StockDataContainer extends Component {
     );
     this.setState({availableStocks, searchStock: []});
   };
-  setStockData = () => {
+  setStockData = async () => {
     let stocks = [...this.state.availableStocks];
 
     const keyList = stocks.map(stock => stock.reference);
-    axios
-      .post(`http://127.0.0.1:3001/getMetaDatas`, {references: keyList})
-      .then(({data}) => {
-        let stockMap = {};
-        console.log(data);
-        data.forEach(element => {
-          let id = element.reference;
-          stockMap[id] = {...element};
-        });
-        stocks.forEach(stock => {
-          let id = stock.reference;
-          stock.currentValue = stockMap[id].value;
-        });
-        this.setState({availableStocks: stocks});
-      });
+    const updatedStocks = await api.postMetaData(stocks, keyList);
+    this.setState({availableStocks: updatedStocks});
 
     setTimeout(this.setStockData, 1000 * 60 * 2);
   };

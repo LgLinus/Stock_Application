@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './RecipeContainer.scss';
 import api from '../../api/api';
-const axios = require('axios');
 
 class RecipeContainer extends Component {
   state = {
