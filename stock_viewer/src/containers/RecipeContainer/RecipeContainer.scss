@@ -1,0 +1,32 @@
+.recipeMain {
+	width: 100%;
+	display:flex;
+	flex-wrap: wrap;
+}
+
+.recipe {
+	flex: 0 100%;
+	background-color:#fafafa;
+	box-shadow: 3px 3px #f0f0f0;
+	margin: 5%;
+	justify-content: space-between;
+}
+
+.recipe .list {
+	display:flex;
+	border-left: 1px solid white;
+	padding: 10px;
+}
+
+.recipe .list div {
+}
+.recipeitem {
+}
+
+.instructions img {
+	float:left;
+	margin:24px;
+	width: 25%;
+	height: auto;
+
+}

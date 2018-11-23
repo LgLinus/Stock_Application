@@ -2,11 +2,11 @@
   color: red;
 }
 
-.stockitem:hover .stockitem-remove {
+.stockitem:hover .stockitem--remove {
 visibility: visible;
 }
 
-.stockitem-remove {
+.stockitem--remove {
 visibility: hidden;
 color: red;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import './StockItem.css';
+import './StockItem.scss';
 import {ListItem, ListItemText} from '@material-ui/core/';
 
 const MAXLENGTH = 20;
@@ -51,7 +51,7 @@ const StockItem = ({
         />
         {stockRemoveHandler && (
           <p
-            className="stockitem-remove"
+            className="stockitem--remove"
             onClick={() => stockRemoveHandler(title)}>
             X
           </p>

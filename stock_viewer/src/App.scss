@@ -1,0 +1,16 @@
+@import "variables";
+p, span {
+font-size: $font--size--normal;
+}
+.p--small {
+font-size: $font--size--small;
+}
+.App {
+  text-align: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.App-title {
+  font-size: $font--size--normal;
+}
