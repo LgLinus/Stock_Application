@@ -1,5 +1,6 @@
 const axios = require('axios');
-let baseURL = 'http://127.0.0.1:3001';
+
+let baseURL = process.env.REACT_APP_API_BASEURL || 'http://127.0.0.1:3001';
 axios.defaults.baseURL = baseURL;
 
 async function getFood() {
@@ -14,7 +15,6 @@ async function getStockSearch(searchValue) {
   let {data} = await axios.get(`/search?searchText=${searchValue}`);
   if (data) {
     return data;
-    console.log({data});
   }
   return [];
 }
