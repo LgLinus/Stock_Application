@@ -1,6 +1,7 @@
 import React from "react";
 import { TextField } from "@material-ui/core/";
 import StockList from "../StockList/StockList";
+import "./SearchComponent.scss";
 
 class SearchComponent extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class SearchComponent extends React.Component {
   };
   render() {
     return (
-      <div>
+      <div className="searchcomponent">
         <TextField
           id="search"
           label="Search stock"
