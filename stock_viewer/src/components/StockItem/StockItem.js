@@ -52,7 +52,7 @@ const StockItem = ({
         {stockRemoveHandler && (
           <p
             className="stockitem--remove"
-            onClick={() => stockRemoveHandler(title)}
+            onClick={() => stockRemoveHandler(reference)}
           >
             X
           </p>

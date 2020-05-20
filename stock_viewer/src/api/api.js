@@ -1,10 +1,10 @@
-const axios = require('axios');
+const axios = require("axios");
 
-let baseURL = process.env.REACT_APP_API_BASEURL || 'http://127.0.0.1:3001';
+let baseURL = process.env.REACT_APP_API_BASEURL || "http://127.0.0.1:3001";
 axios.defaults.baseURL = baseURL;
 
 async function getFood() {
-  let {data} = await axios.get('/food/getAll');
+  let { data } = await axios.get("/food/getAll");
   if (data) {
     return data;
   }
@@ -12,7 +12,7 @@ async function getFood() {
 }
 
 async function getStockSearch(searchValue) {
-  let {data} = await axios.get(`/search?searchText=${searchValue}`);
+  let { data } = await axios.get(`/search?searchText=${searchValue}`);
   if (data) {
     return data;
   }
@@ -20,20 +20,48 @@ async function getStockSearch(searchValue) {
 }
 
 async function postMetaData(stocks, keyList) {
-  let {data} = await axios.post('getMetaDatas', {references: keyList});
-  if (data) {
-    let stockMap = {};
-    console.log(data);
-    data.forEach(element => {
-      let id = element.reference;
-      stockMap[id] = {...element};
-    });
-    stocks.forEach(stock => {
-      let id = stock.reference;
-      stock.currentValue = stockMap[id].value;
-    });
-    return stocks;
+  let { data } = await axios.post("getMetaDatas", { references: keyList });
+  if (!data) {
+    return [];
   }
-  return [];
+
+  return mappedStocks(data);
 }
-export default {getFood, getStockSearch, postMetaData};
+
+async function deleteStock(reference) {
+  await axios.delete(`stock?reference=${reference}`);
+}
+async function saveStock(reference) {
+  await axios.post(`stocks?reference=${reference}`);
+}
+
+async function getStocks() {
+  let { data } = await axios.get("stocks");
+  if (!data) {
+    return [];
+  }
+  console.log(data);
+  return data;
+}
+
+function mappedStocks(stocks, data) {
+  let stockMap = {};
+  console.log(data);
+  data.forEach(element => {
+    let id = element.reference;
+    stockMap[id] = { ...element };
+  });
+  stocks.forEach(stock => {
+    let id = stock.reference;
+    stock.currentValue = stockMap[id].value;
+  });
+  return stocks;
+}
+export default {
+  getFood,
+  deleteStock,
+  getStocks,
+  getStockSearch,
+  postMetaData,
+  saveStock
+};
