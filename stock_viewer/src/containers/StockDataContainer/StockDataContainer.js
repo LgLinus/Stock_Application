@@ -33,8 +33,6 @@ class StockDataContainer extends Component {
     ];
     let searchStock = [];
     this.state = { searchValue: "", availableStocks, searchStock };
-
-    setTimeout(this.setStockData, 3000);
   }
 
   async componentDidMount() {
@@ -72,13 +70,13 @@ class StockDataContainer extends Component {
     this.setState({ availableStocks, searchStock: [] });
   };
   setStockData = async () => {
-    let stocks = [...this.state.availableStocks];
+    /*    let stocks = [...this.state.availableStocks];
 
     const keyList = stocks.map(stock => stock.reference);
     const updatedStocks = await api.postMetaData(stocks, keyList);
     this.setState({ availableStocks: updatedStocks });
 
-    setTimeout(this.setStockData, 1000 * 60 * 2);
+    setTimeout(this.setStockData, 1000 * 60 * 2);*/
   };
   render() {
     // Header (buttons)
